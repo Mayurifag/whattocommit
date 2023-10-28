@@ -8,15 +8,27 @@ version from default branch pushed to Docker Hub via GitHub Actions.
 
 ## Provision
 
+Make sure you have Docker installed and have `9321` port not occupied.
+
+### Development
+
 To provision the application, run the following command:
 
 ```bash
 make provision
 ```
 
-App will be available on <http://localhost:9321>.
+### Fast launch latest main branch version
 
-## Example
+To launch the latest version from main branch, run the following command:
+
+```bash
+docker run --rm -p 9321:8080 mayurifag/whattocommit:main
+```
+
+## Examples
+
+App will be available on <http://localhost:9321>.
 
 * <http://localhost:9321/all> - all messages
 * <http://localhost:9321/> - random message
