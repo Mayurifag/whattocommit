@@ -6,6 +6,12 @@
 fasthttp. Made for personal self-education purposes and self-hosting. Latest
 version from default branch pushed to Docker Hub via GitHub Actions.
 
+*TL;DR:*
+
+```bash
+alias q='git add . && git commit -m "$(curl --silent --fail -L https://commit.mayurifag.ru)" && LEFTHOOK=0 git push origin HEAD'
+```
+
 ## Provision
 
 Make sure you have Docker installed and have `9321` port not occupied.

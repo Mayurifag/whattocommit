@@ -5,3 +5,5 @@ Makefile
 LICENSE
 .gitignore
 .editorconfig
+README.md
+.vscode/
