@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"math/rand"
 	"os"
@@ -12,15 +13,26 @@ import (
 var commitMessages []string
 
 func readCommitMessages() error {
-	fileContent, err := os.ReadFile("commit_messages.txt")
+	file, err := os.Open("commit_messages.txt")
 	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return err
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if line != "" {
+			commitMessages = append(commitMessages, line)
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
 		fmt.Println("Error reading file:", err)
 		return err
 	}
 
-	commitMessages = strings.Split(string(fileContent), "\n")
-	// Last line is empty in commit_messages, so we can easily omit it
-	commitMessages = commitMessages[:len(commitMessages)-1]
 	return nil
 }
 
