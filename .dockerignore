@@ -1,0 +1,4 @@
+/.dockerdev/
+/.dockerignore
+/docker-compose.yml
+/Makefile
