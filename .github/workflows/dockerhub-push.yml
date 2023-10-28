@@ -6,7 +6,7 @@ on:
       - "main"
 
 env:
-  REGISTRY_IMAGE: Mayurifag/whattocommit
+  REGISTRY_IMAGE: mayurifag/whattocommit
 
 jobs:
   build:

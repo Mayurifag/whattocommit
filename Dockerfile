@@ -1,22 +1,24 @@
-FROM golang:alpine AS builder
+FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:alpine as builder
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
 
 WORKDIR /app
 
-COPY . .
+ADD . .
 
-RUN go build -o ./application
+RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -ldflags="-w -s" -o whattocommit main.go
 
 ######################
 
-FROM alpine
+FROM --platform=${TARGETPLATFORM:-linux/amd64} scratch
 
 WORKDIR /app
 
-RUN addgroup -g 1000 application && adduser -u 1000 -D -G application -s /sbin/nologin application
-USER application
-
-COPY --from=builder --chown=1000:1000 /app/application application
-COPY --from=builder --chown=1000:1000 /app/commit_messages.txt commit_messages.txt
+COPY --from=builder /app/whattocommit /app/whattocommit
+COPY --from=builder /app/commit_messages.txt /app/commit_messages.txt
 
 EXPOSE 8080
-CMD ["./application"]
+ENTRYPOINT ["/app/whattocommit"]
