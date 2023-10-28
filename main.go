@@ -43,6 +43,8 @@ func requestHandler(ctx *fasthttp.RequestCtx) {
 	switch string(ctx.Path()) {
 	case "/all":
 		_, _ = ctx.WriteString(strings.Join(commitMessages, "\n"))
+	case "/number":
+		_, _ = ctx.WriteString(fmt.Sprint(len(commitMessages)))
 	case "/":
 		_, _ = ctx.WriteString(commitMessages[rand.Intn(len(commitMessages))])
 	}

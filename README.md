@@ -37,6 +37,7 @@ docker run --rm -p 9321:8080 mayurifag/whattocommit:main
 App will be available on <http://localhost:9321>.
 
 * <http://localhost:9321/all> - all messages
+* <http://localhost:9321/number> - number of messages (for debug purposes)
 * <http://localhost:9321/> - random message
 
 ## k6
