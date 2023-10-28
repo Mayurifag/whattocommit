@@ -25,14 +25,13 @@ func readCommitMessages() error {
 }
 
 func requestHandler(ctx *fasthttp.RequestCtx) {
+	ctx.SetContentType("text/plain")
+	ctx.SetStatusCode(fasthttp.StatusOK)
+
 	switch string(ctx.Path()) {
 	case "/all":
-		ctx.SetContentType("text/plain")
-		ctx.SetStatusCode(fasthttp.StatusOK)
 		_, _ = ctx.WriteString(strings.Join(commitMessages, "\n"))
 	case "/":
-		ctx.SetContentType("text/plain")
-		ctx.SetStatusCode(fasthttp.StatusOK)
 		_, _ = ctx.WriteString(commitMessages[rand.Intn(len(commitMessages))])
 	}
 }
