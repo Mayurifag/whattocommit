@@ -28,10 +28,6 @@ update:
 sh:
 	docker-compose run --no-deps --rm -it app sh
 
-# .PHONY: test
-# test:
-# 	docker-compose run --no-deps --rm app go test ./...
-
 .PHONY: mod-tidy
 mod-tidy:
 	docker-compose run --no-deps --rm app go mod tidy

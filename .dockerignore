@@ -4,3 +4,4 @@ docker-compose.yml
 Makefile
 LICENSE
 .gitignore
+.editorconfig

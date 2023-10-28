@@ -19,6 +19,7 @@ func readCommitMessages() error {
 	}
 
 	commitMessages = strings.Split(string(fileContent), "\n")
+	// Last line is empty in commit_messages, so we can easily omit it
 	commitMessages = commitMessages[:len(commitMessages)-1]
 	return nil
 }
