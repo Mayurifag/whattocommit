@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gin-gonic/gin"
+	"github.com/valyala/fasthttp"
 )
 
 var commitMessages []string
@@ -23,6 +23,19 @@ func readCommitMessages() error {
 	return nil
 }
 
+func requestHandler(ctx *fasthttp.RequestCtx) {
+	switch string(ctx.Path()) {
+	case "/all":
+		ctx.SetContentType("text/plain")
+		ctx.SetStatusCode(fasthttp.StatusOK)
+		_, _ = ctx.WriteString(strings.Join(commitMessages, "\n"))
+	case "/":
+		ctx.SetContentType("text/plain")
+		ctx.SetStatusCode(fasthttp.StatusOK)
+		_, _ = ctx.WriteString(commitMessages[rand.Intn(len(commitMessages))])
+	}
+}
+
 func main() {
 	err := readCommitMessages()
 	if err != nil {
@@ -30,15 +43,11 @@ func main() {
 		return
 	}
 
-	router := gin.Default()
+	server := fasthttp.Server{
+		Handler: requestHandler,
+	}
 
-	router.GET("/all", func(c *gin.Context) {
-		c.IndentedJSON(200, commitMessages)
-	})
-
-	router.GET("/", func(c *gin.Context) {
-		c.Data(200, "text/plain", []byte(commitMessages[rand.Intn(len(commitMessages))]))
-	})
-
-	router.Run()
+	if err := server.ListenAndServe(":8080"); err != nil {
+		fmt.Println("Error in ListenAndServe:", err)
+	}
 }
