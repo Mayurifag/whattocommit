@@ -173,3 +173,6 @@ indent_style = space
 [*.{yaml,yml}]
 indent_size = 2
 indent_style = space
+
+[Dockerfile,*.Dockerfile]
+indent_size = 4
