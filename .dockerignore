@@ -1,4 +1,6 @@
-/.dockerdev/
-/.dockerignore
-/docker-compose.yml
-/Makefile
+.dockerdev/
+.dockerignore
+docker-compose.yml
+Makefile
+LICENSE
+.gitignore
