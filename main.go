@@ -10,7 +10,10 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-var commitMessages []string
+var (
+	commitMessages []string
+	commitMessagesLength int
+)
 
 func readCommitMessages() error {
 	file, err := os.Open("commit_messages.txt")
@@ -28,6 +31,8 @@ func readCommitMessages() error {
 		}
 	}
 
+	commitMessagesLength = len(commitMessages)
+
 	if err := scanner.Err(); err != nil {
 		fmt.Println("Error reading file:", err)
 		return err
@@ -41,12 +46,12 @@ func requestHandler(ctx *fasthttp.RequestCtx) {
 	ctx.SetStatusCode(fasthttp.StatusOK)
 
 	switch string(ctx.Path()) {
+	case "/":
+		_, _ = ctx.WriteString(commitMessages[rand.Intn(commitMessagesLength)])
 	case "/all":
 		_, _ = ctx.WriteString(strings.Join(commitMessages, "\n"))
 	case "/number":
-		_, _ = ctx.WriteString(fmt.Sprint(len(commitMessages)))
-	case "/":
-		_, _ = ctx.WriteString(commitMessages[rand.Intn(len(commitMessages))])
+		_, _ = ctx.WriteString(fmt.Sprint(commitMessagesLength))
 	}
 }
 
